@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load thumbnail %} 
+
+{% block title %} {{user.username}}{% endblock title %}
+
+{% block body %} 
+
+<!-- component from tailwin -->
+<div class="rounded rounded-t-lg overflow-hidden shadow max-w-xs my-3">
+  	<img src="https://img.freepik.com/free-vector/winter-blue-pink-gradient-background-vector_53876-117276.jpg?w=2000" class="w-full" />
+    <div class="flex justify-center -mt-8">
+        {% thumbnail user.profile.image "200x200" crop="center" as im %}
+            <img src="{{ im.url }}" class="mx-4 w-10 h-10 object-cover rounded-full hidden sm:block">
+        {% endthumbnail %}	
+    </div>
+	<div class="text-center px-3 pb-6 pt-2">
+		<h3 class="text-black text-sm bold font-sans"> {{user.username}}</h3>
+    {% if request.user.is_authenticated %}
+        {% if request.user != user %}
+                <button class="bg-white text-gray-800 font-bold rounded border-b-2 border-green-500 hover:border-green-600 hover:bg-green-500 hover:text-white shadow-md py-2 px-6 inline-flex items-center js-follow" data-username="{{user.username}}" data-action="{% if you_follow %}un{% endif %}follow" data-url="{% url 'profiles:follow' user.username %}" type="button">
+                    <span class="mr-2 js-follow-text bx bx-plus">
+                        {% if you_follow %}
+                            Unfollow
+                        {% else %}
+                            Follow
+                        {% endif %}
+                    </span>
+                </button>
+	</div>
+    {% endif %}
+
+    {% else %}
+        <div class="mt-3 text-small">Log in to follow this user</div>
+    {% endif %}
+
+
+  	<div class="flex justify-center pb-3 text-grey-dark">
+      <div class="text-center mr-3 border-r pr-3">
+        <h2>{{ total_posts }}</h2>
+        <span>Posts</span>
+      </div>
+      <div class="text-center">
+        <h2>{{ total_followers }}</h2>
+        <span>Followers</span>
+      </div>
+  	</div>
+</div>
+{% endblock body %}
+
+               

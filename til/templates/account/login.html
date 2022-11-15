@@ -1,0 +1,35 @@
+
+{% extends "base.html" %}
+{% load account socialaccount %}
+
+
+{% block head_title %}
+<h1>Log In</h1>
+{% endblock %}
+
+{% block content %} 
+
+<h1 class="text-indigo-500 text-lg font-bold">Sign In</h1>
+<p class="mb-2"> Don't have an account?
+<a href="{% url 'account_signup' %}" class="text-indigo-500 underline">Create New Account</a>.</p>
+
+<form class="login" method="POST" action="{% url 'account_login' %}">
+  {% csrf_token %}
+  <p class="bg-white border border-gray-400 text-grey-800 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 pl-2 p-2 my-2">
+    <span class="text-indigo-500 pr-2"><i class='bx bxs-envelope text-xl align-middle'></i></span>
+    {{ form.login}} 
+  </p>
+  <p class="bg-white border border-gray-400 text-gray-800 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 pl-2 p-2 my-3">
+    <span class="text-indigo-500 pr-2"><i class='bx bxs-lock-alt text-xl align-middle w-70'></i></span>
+    {{ form.password}}
+  </p>
+  {% if redirect_field_value %}
+    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+  {% endif %}
+   
+    <button class="primaryAction inline-block uppercase mx-auto shadow bg-indigo-800 hover:bg-indigo-700 focus:shadow-outline focus:outline-none text-white text-xs py-3 px-10 rounded" type="submit">Sign In</button> <a class="button secondaryAction inline-block uppercase mx-auto text-indigo text-xs py-3 px-15" href="{% url 'account_reset_password' %}">Forgot Password?</a>
+</form>
+
+{% endblock %}
+
+
